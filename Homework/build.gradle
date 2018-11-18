@@ -1,0 +1,52 @@
+buildscript {
+	ext {
+		springBootVersion = '2.1.0.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+task wrapper(type: Wrapper) {
+	gradleVersion = "4.7"
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse-wtp'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'war'
+
+group = 'com.homework'
+compileJava.options.encoding = 'UTF-8' // 소스파일 인코딩 방식
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+eclipse {
+    // 빌드하고나면 프로젝트정보도 같이 지워지는데, Gradle프로젝트임을 인식시켜줍니다.
+    project.natures "org.springsource.ide.eclipse.gradle.core.nature"
+    wtp {
+        facet {
+            facet name: 'jst.web', version: '3.0'  // Server Spec Version 지정
+            facet name: 'jst.java', version: '1.8' // Java Version
+        }
+    }
+}
+
+repositories {
+	mavenCentral()
+}
+
+configurations {
+	providedRuntime
+}
+
+dependencies {
+	implementation('org.springframework.boot:spring-boot-starter-thymeleaf')
+	implementation('org.springframework.boot:spring-boot-starter-web')
+	providedRuntime('org.springframework.boot:spring-boot-starter-tomcat')
+	testImplementation('org.springframework.boot:spring-boot-starter-test')
+}

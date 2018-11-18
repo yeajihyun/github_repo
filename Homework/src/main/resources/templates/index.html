@@ -1,0 +1,205 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>HomeWork</title>
+</head>
+
+<body>
+
+	<p>
+		<strong>지폐 금액 : &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</strong>
+		<input type="text" id="paper" style="text-align:center">
+	</p>
+
+	<p>
+		<strong>동전의 가지 수 : &nbsp; &nbsp; </strong>
+		<button id="plusButton" >&nbsp;+&nbsp;</button>
+		<button id="minusButton" >&nbsp;-&nbsp;</button>
+	</p>
+
+	<p>
+		<strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 동전 금액</strong>
+		<strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 개수</strong>
+	</p>
+
+	<!-- 동전 추가 -->
+	<div id="coinList"></div>
+
+	<br>
+
+	<p>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <button id="calButton">계산</button>
+	</p>
+
+	<!-- 결과 -->
+	<div id="result">
+	</div>
+
+</body>
+
+
+<script th:inline="javascript">
+
+	var arrayIndex = 0;
+	var result="";
+	var count = 0;
+	var resultArray = [];
+	
+	// init
+	( function() {
+		plusButtonClick();	//디플트 한 줄
+	})()
+
+
+	// 이벤트 처리
+	document.getElementById('plusButton').onclick = function(e) {
+		plusButtonClick();
+	}
+
+	document.getElementById('minusButton').onclick = function(e) {
+		minusButtonClick();
+	}
+
+	document.getElementById('calButton').onclick = function(e) {
+		if(document.getElementById('resultChild'))
+		    document.getElementById('result').removeChild(document.getElementById('resultChild')); // 폼 삭제 
+
+		var paper = 0;
+		var coinList = [];
+	 	var resultObject = {};
+		var sortingField = "coin";
+
+		// 지폐 금액
+		paper = document.getElementById('paper').value;	
+
+		// 동전 금액, 개수
+		for(var j=0; j<count; j++ ) {
+			coinList[j] = { 
+				  coin:document.getElementById('coin'+j).value, 
+				  count:document.getElementById('count'+j).value
+			  }
+		}
+
+		// 동전 금액 높은 순으로 정렬
+		coinList.sort(function(a, b) {
+			return b[sortingField] - a[sortingField];
+		});
+
+		exchange(paper, coinList, resultObject, 0);
+
+
+		// count가 0인 coin 제거(ex. 10 x 0 객체 제거)
+		/*
+		alert(resultArray.length);
+		for(var k=0; k<resultArray.length; k++) {
+			for(var j=0; j<Object.keys(resultArray[k]).length; j++) {
+				if( resultArray[k][j].count == 0 )
+					delete(resultArray[k][j]);
+			}		
+		}
+		*/
+
+		// 결과
+		/*
+		for(var i=0; i<resultArray.length; i++) {
+			for(var j=0; j<Object.keys(resultArray[i]).length; j++) {
+				result = result + "  coin:" + resultArray[i][j].coin + ", count:" + resultArray[i][j].count;
+			}
+			alert(result);
+			result="";
+		}
+		*/
+
+		var str = "";
+		var resultDiv = document.createElement('div');
+
+		str += "총 " + resultArray.length + " 가지 <br>";
+
+		for (var i=0; i<resultArray.length; i++) {
+			str += document.getElementById('paper').value + " = ";
+			for(var j=0; j<Object.keys(resultArray[i]).length; j++) {
+				if( j != 0 )
+					str += ", ";
+				str += resultArray[i][j].coin + " x " + resultArray[i][j].count;
+			} 
+			str += "<br>";
+		}
+
+        resultDiv.innerHTML = str;
+		resultDiv.id = "resultChild";
+		document.getElementById('result').appendChild(resultDiv);
+		resultArray = [];
+		arrayIndex = 0;
+		resultObject = {};
+	}
+	
+	/*
+	// 아래는 이벤트 처리 다른방법(참고)
+	document.getElementById('plusButton').addEventListener('click', plusButtonClick);
+	document.getElementById('minusButton').addEventListener('click', minusButtonClick);
+	document.getElementById('calButton').addEventListener('click', exchange);
+	*/
+
+	// +버튼
+	function plusButtonClick() {
+		var str = "";
+		str += "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;";
+		str += "<input type='text' id='coin" + count + "' style='width:50px;text-align:center' >";
+		str += "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;";
+		str += "<input type='text' id='count" + count + "' style='width:50px;text-align:center' >";
+
+        var addedDiv = document.createElement('div');
+        addedDiv.innerHTML = str;
+        addedDiv.id = "coinList" + count;
+        document.getElementById('coinList').appendChild(addedDiv);		
+		count++;
+	}
+
+	// -버튼
+	function minusButtonClick() {
+	    if(count > 1) { // 현재 폼이 두개 이상이면 
+			var addedDiv = document.getElementById("coinList"+(--count)); 
+		 	// 마지막으로 생성된 폼의 ID를 통해 Div객체를 가져옴 
+		    document.getElementById('coinList').removeChild(addedDiv); // 폼 삭제 
+		    }
+		else { // 마지막 폼만 남아있다면 
+		}
+	}
+
+	// 계산
+	function exchange(paper, coinList, resultObject, index) {
+		for(var i=coinList[index].count; i>=0; i--) {
+			var remainder = 0;
+
+			remainder = paper - (coinList[index].coin * i);
+
+			// 나머지가 있을 경우 
+			if( remainder > 0 ) { 
+				
+				// 다음동전이 없을 경우 종료
+				if( index+1 >= count ) {
+					break;
+				}
+				
+				resultObject[index] = {coin:coinList[index].coin, count:i};
+
+				// 다음 동전으로 검사
+				exchange(remainder, coinList, resultObject, index+1);
+			}
+			// 나머지가 없을경우 결과에 추가
+			else if( remainder == 0 ) {	
+				resultObject[index] = {coin:coinList[index].coin, count:i};
+				resultObject[index+1] = undefined;	// 나머지가 없으므로 뒤에 필요없는 동전 삭제
+				resultArray[arrayIndex] = JSON.parse(JSON.stringify(resultObject));	
+				arrayIndex++;
+			}
+		}
+	}
+	
+</script>
+</html>
