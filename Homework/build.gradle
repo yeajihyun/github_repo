@@ -3,7 +3,7 @@ buildscript {
 		springBootVersion = '2.1.0.RELEASE'
 	}
 	repositories {
-		mavenCentral()
+		jcenter()
 	}
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
@@ -37,7 +37,7 @@ eclipse {
 }
 
 repositories {
-	mavenCentral()
+	jcenter()
 }
 
 configurations {
