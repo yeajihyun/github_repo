@@ -23,8 +23,11 @@ apply plugin: 'war'
 group = 'com.homework'
 compileJava.options.encoding = 'UTF-8'
 version = '0.0.1-SNAPSHOT'
+
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
+
+war.archiveName "ROOT.war"
 
 eclipse {
     project.natures "org.springsource.ide.eclipse.gradle.core.nature"
