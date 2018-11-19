@@ -27,10 +27,6 @@ compileJava.options.encoding = 'UTF-8'
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
 
-war { 
-	archiveName "ROOT.war"
-}
-
 eclipse {
     project.natures "org.springsource.ide.eclipse.gradle.core.nature"
     wtp {
@@ -54,4 +50,8 @@ dependencies {
 	implementation('org.springframework.boot:spring-boot-starter-web')
 	providedRuntime('org.springframework.boot:spring-boot-starter-tomcat')
 	testImplementation('org.springframework.boot:spring-boot-starter-test')
+}
+
+war { 
+	archiveName "ROOT.war"
 }
