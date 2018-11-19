@@ -1,6 +1,6 @@
 buildscript {
 	ext {
-		springBootVersion = '1.5.14.RELEASE'
+		springBootVersion = '2.1.0.RELEASE'
 	}
 	repositories {
 		jcenter()
@@ -27,6 +27,11 @@ compileJava.options.encoding = 'UTF-8'
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
 
+war { 
+	enabled = true
+	archiveName "ROOT.war"
+}
+
 eclipse {
     project.natures "org.springsource.ide.eclipse.gradle.core.nature"
     wtp {
@@ -50,8 +55,4 @@ dependencies {
 	implementation('org.springframework.boot:spring-boot-starter-web')
 	providedRuntime('org.springframework.boot:spring-boot-starter-tomcat')
 	testImplementation('org.springframework.boot:spring-boot-starter-test')
-}
-
-war { 
-	archiveName "ROOT.war"
 }
