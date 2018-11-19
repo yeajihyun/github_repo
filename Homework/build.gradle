@@ -27,7 +27,9 @@ compileJava.options.encoding = 'UTF-8'
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
 
-war.archiveName "ROOT.war"
+war { 
+	archiveName "ROOT.war"
+}
 
 eclipse {
     project.natures "org.springsource.ide.eclipse.gradle.core.nature"
