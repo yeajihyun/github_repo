@@ -2,9 +2,13 @@ buildscript {
 	ext {
 		springBootVersion = '2.1.0.RELEASE'
 	}
+
+	ext['thymeleaf.version'] = '3.0.9.RELEASE'
+
 	repositories {
 		jcenter()
 	}
+
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
 	}
