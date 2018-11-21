@@ -56,15 +56,17 @@
 	})()
 
 
-	// 이벤트 처리
+	// + 버튼 이벤트 처리 
 	document.getElementById('plusButton').onclick = function(e) {
 		plusButtonClick();
 	}
 
+	// - 버튼 이벤트 처리
 	document.getElementById('minusButton').onclick = function(e) {
 		minusButtonClick();
 	}
 
+	// 계산 버튼 이벤트 처리
 	document.getElementById('calButton').onclick = function(e) {
 		if(document.getElementById('resultChild'))
 		    document.getElementById('result').removeChild(document.getElementById('resultChild')); // 폼 삭제 
@@ -89,6 +91,12 @@
 		coinList.sort(function(a, b) {
 			return b[sortingField] - a[sortingField];
 		});
+		
+		// 지폐 금액 체크 
+		if( document.getElementById('paper').value <= 0 || document.getElementById('paper').value > 10000 ) {
+			alert("지폐금액은 0보다 크고 10,000보다 작거나 같아야 한다.");
+			return;
+		}
 
 		exchange(paper, coinList, resultObject, 0);
 
@@ -138,6 +146,12 @@
 		resultObject = {};
 	}
 	
+	
+	// 지폐 금액 이벤트 처리
+	document.getElementById('paper').onkeyup = function(e) {
+		document.getElementById('paper').value = comma(uncomma(document.getElementById('paper').value));
+	}
+
 	/*
 	// 아래는 이벤트 처리 다른방법(참고)
 	document.getElementById('plusButton').addEventListener('click', plusButtonClick);
@@ -166,8 +180,10 @@
 			var addedDiv = document.getElementById("coinList"+(--count)); 
 		 	// 마지막으로 생성된 폼의 ID를 통해 Div객체를 가져옴 
 		    document.getElementById('coinList').removeChild(addedDiv); // 폼 삭제 
-		    }
+		}
 		else { // 마지막 폼만 남아있다면 
+			document.getElementById('coin0').value = "";
+			document.getElementById('count0').value = "";
 		}
 	}
 
@@ -200,6 +216,20 @@
 			}
 		}
 	}
+	
+	// 콤마 추가 
+	function comma(str) { 
+	    str = String(str); 
+	    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,'); 
+	} 
+
+	// 콤마 제거 
+	function uncomma(str) { 
+	    str = String(str); 
+	    return str.replace(/[^\d]+/g, ''); 
+	}
+
+
 	
 </script>
 </html>
