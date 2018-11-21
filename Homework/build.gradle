@@ -3,8 +3,6 @@ buildscript {
 		springBootVersion = '2.1.0.RELEASE'
 	}
 
-	ext['thymeleaf.version'] = '3.0.9.RELEASE'
-
 	repositories {
 		jcenter()
 	}
