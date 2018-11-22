@@ -112,8 +112,8 @@
 		}
 		*/
 
-		// 결과
 		/*
+		// 결과
 		for(var i=0; i<resultArray.length; i++) {
 			for(var j=0; j<Object.keys(resultArray[i]).length; j++) {
 				result = result + "  coin:" + resultArray[i][j].coin + ", count:" + resultArray[i][j].count;
@@ -131,9 +131,11 @@
 		for (var i=0; i<resultArray.length; i++) {
 			str += document.getElementById('paper').value + " = ";
 			for(var j=0; j<Object.keys(resultArray[i]).length; j++) {
-				if( j != 0 )
-					str += ", ";
-				str += resultArray[i][j].coin + " x " + resultArray[i][j].count;
+				if( resultArray[i][j] != undefined ) {
+					if( j != 0 )
+						str += ", ";
+					str += resultArray[i][j].coin + " x " + resultArray[i][j].count;
+				}
 			} 
 			str += "<br>";
 		}
@@ -210,6 +212,7 @@
 			// 나머지가 없을경우 결과에 추가
 			else if( remainder == 0 ) {	
 				resultObject[index] = {coin:coinList[index].coin, count:i};
+				// delete resultObject['index+1'];
 				resultObject[index+1] = undefined;	// 나머지가 없으므로 뒤에 필요없는 동전 삭제
 				resultArray[arrayIndex] = JSON.parse(JSON.stringify(resultObject));	
 				arrayIndex++;
