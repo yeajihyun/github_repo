@@ -1,0 +1,316 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>HomeWork</title>
+  <style>
+  	td {
+  		text-align:center;
+  	}
+  </style>
+</head>
+
+<body>
+
+	<h1>FC CNT</h1>
+	<table border="1">
+		<colgroup>
+			<col style="width:5%"/>
+			<col style="width:20%"/>
+			<col style="width:10%"/>
+			<col style="width:10%"/>
+			<col style="width:15%"/>
+			<col style="width:10%"/>
+			<col style="width:30%"/>
+		</colgroup>
+		<thead>
+			<tr>
+				<th scope="col">번호</th>
+				<th scope="col">이름</th>
+				<th scope="col">근무지</th>
+				<th scope="col">차량유무</th>
+				<th scope="col">변경</th>
+				<th scope="col">배차 선택</th>
+				<th scope="col">배차 결과</th>
+			</tr>
+		</thead>
+		<tbody>
+			 <tr th:each="member : ${memberList}">
+				 <td th:text="${member.rowNum}"></td>
+				 <td th:id="'name' + ${member.seq}" th:text="${member.name}"></td>
+				 <td>
+				 	<select th:id="'workPlace' + ${member.seq}">
+			 			<option th:selected="${member.workPlace} eq DMC" value="DMC">DMC</option>
+			 			<option th:selected="${member.workPlace} eq 본사" value="본사">본사</option>
+			 			<option th:selected="${member.workPlace} eq 가산" value="가산">가산</option>
+			 		</select>
+				 </td>
+				 <td><input type="checkbox" th:checked="${member.car} eq Y" th:id="'car' + ${member.seq}"></td>
+			 	 <td>
+			 	 	<button th:onclick="'memberUpdate(' + ${member.seq} + ');'">수정</button>
+			 	 	<button th:onclick="'memberDelete(' + ${member.seq} + ');'">삭제</button>
+			 	 </td>
+				 <td><input name="move" type="checkbox" th:value="${member.seq}"></td>
+				<td th:if="${member.rowNum} eq 1" id="result" th:rowspan="${#lists.size(memberList) + 1}" style="text-align:left"></td>
+			 </tr>
+			 <!-- 추가 -->
+			 <tr>
+			 	<td>[[${#lists.size(memberList) + 1}]]</td>	
+			 	<td><input type="text" id="name"></td>	
+			 	<td>
+			 		<select id="workPlace">
+			 			<option>선택</option>
+			 			<option value="DMC">DMC</option>
+			 			<option value="본사">본사</option>
+			 			<option value="가산">가산</option>
+			 		</select>
+			 	</td>	
+				<td><input type="checkbox" id="car"></td>
+				<td><button id="memberAdd">추가</button></td>
+				<td><button th:onclick="memberMove();">배차</button></td>
+			 </tr>
+	 	</tbody>
+	</table>
+
+</body>
+
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script th:inline="javascript">
+
+	// 추가 버튼 이벤트 처리 
+	document.getElementById('memberAdd').onclick = function(e) {
+		memberAdd();
+	}
+	
+	
+	// 회원 추가
+	function memberAdd() {
+		if(confirm("추가 하시겠습니까?")) {
+			var params = {
+				 name : document.getElementById('name').value				
+				 ,workPlace : document.getElementById('workPlace').value
+				 ,car : document.getElementById('car').checked ? 'Y' : 'N'
+			};
+			
+			$.ajax({
+				url: '/member/memberAdd',
+				type: 'POST',
+				data: JSON.stringify(params),
+				contentType: 'application/json',
+				success: function(result) {
+					if(result) {
+						alert("추가되었습니다.");
+						location.reload();
+					}
+					else
+						alert("실패했습니다.");
+				},
+				error: function() {
+					alert("에러 발생");
+				}
+			});
+		}
+		else
+			return;
+	}
+	
+	// 회원 수정
+	function memberUpdate(seq) {
+		if(confirm("수정 하시겠습니까?")) {
+			var params = {
+				 seq : seq
+				,workPlace : $('#workPlace' + seq).val()
+				,car : $("input:checkbox[id='car" + seq + "']").is(":checked") ? 'Y' : 'N'
+			}
+			
+			$.ajax({
+				url: '/member/memberUpdate',
+				type: 'POST',
+				data: JSON.stringify(params),
+				contentType: 'application/json',
+				success: function(result) {
+					if(result) {
+						alert("수정되었습니다.");
+						location.reload();
+					}
+					else
+						alert("실패했습니다.");
+				},
+				error: function() {
+					alert("에러 발생");
+				}
+			});
+		}
+		else 
+			return;
+	}
+	
+	// 회원 삭제
+	function memberDelete(seq) {
+		if(confirm("삭제 하시겠습니까?")) {
+			var params = {
+				 seq : seq
+			}
+			
+			$.ajax({
+				url: '/member/memberDelete',
+				type: 'POST',
+				data: JSON.stringify(params),
+				contentType: 'application/json',
+				success: function(result) {
+					if(result) {
+						alert("삭제되었습니다.");
+						location.reload();
+					}
+					else
+						alert("실패했습니다.");
+				},
+				error: function() {
+					alert("에러 발생");
+				}
+			});
+		}
+		else
+			return;
+	}
+	
+	// 배차 
+	function memberMove() {
+		var dmc = [], dmcMember = [], dmcDriver = [], i=0, j=0;
+		var bonsa = [], bonsaMember = [], bonsaDriver = [], k=0, l=0;
+		var gasan = [], gasanMember = [], gasanDriver = [], m=0, n=0;
+		var dmcIndex=0, bonsaIndex=0, gasanIndex=0;
+		var str = "";
+		var resultDiv = ""; 
+		var tmpIndex = -1;
+		
+		$('#result').empty();	// 기존 결과 삭제
+
+		// 근무지, 운전회원, 일반회원 별로 나눔
+		$('input:checkbox[name="move"]').each(function() {
+			if (this.checked) {//checked 처리된 항목의 값
+				if ($('#workPlace' + this.value).val() == "DMC") {
+					if ($('#car' + this.value).is(":checked")) {
+						dmcDriver[i] = $('#name' + this.value).text();
+						i++;
+					} 
+					else {
+						dmcMember[j] = $('#name' + this.value).text();
+						j++;
+					}
+				}
+				else if( $('#workPlace' + this.value).val() == "본사" ) {
+					if ($('#car' + this.value).is(":checked")) {
+						bonsaDriver[k] = $('#name' + this.value).text();
+						k++;
+					} 
+					else {
+						bonsaMember[l] = $('#name' + this.value).text();
+						l++;
+					}
+				}
+				else if( $('#workPlace' + this.value).val() == "가산" ) {
+					if ($('#car' + this.value).is(":checked")) {
+						gasanDriver[m] = $('#name' + this.value).text(); 
+						m++;
+					} 
+					else {
+						gasanMember[n] = $('#name' + this.value).text();
+						n++;
+					}
+				}
+			}
+		});
+						
+		// DMC 배차
+		for(i=0; i<dmcDriver.length; i++) {
+			dmc[i] = new Array();
+			dmc[i][0] = dmcDriver[i];
+
+			for(j=0; j < (dmcMember.length / dmcDriver.length); j++) {
+				if( dmcIndex == dmcMember.length )
+					break;
+				
+				dmc[i][j+1] = dmcMember[dmcIndex];
+				dmcIndex++;
+			}
+		}
+
+		// 본사 배차
+		for(i=0; i<bonsaDriver.length; i++) {
+			bonsa[i] = new Array();
+			bonsa[i][0] = bonsaDriver[i];
+			for(j=0; j < (bonsaMember.length / bonsaDriver.length); j++) {
+				if( bonsaIndex == bonsaMember.length )
+					break;
+				
+				if( bonsaDriver[i] == "Jonathan" )
+					break;
+
+				bonsa[i][j+1] = bonsaMember[bonsaIndex];
+				bonsaIndex++;
+			}
+		}
+ 
+		// 가산 배차
+		for(i=0; i<gasanDriver.length; i++) {
+			gasan[i] = new Array();
+			gasan[i][0] = gasanDriver[i];
+			for(j=0; j < (gasanMember.length / gasanDriver.length); j++) {
+				if( gasanIndex == gasanMember.length )
+					break;
+
+				gasan[i][j+1] = gasanMember[gasanIndex];
+				gasanIndex++;
+			}
+		}
+		
+		// 출력
+		resultDiv = document.createElement('div')
+		str += "#금일 배차 </br>";
+		
+		// DMC 
+		str += "</br> 1. DMC";
+		for( i=0; i<dmc.length; i++ ) {
+			str += "</br>  -  " + dmc[i][0] + " > ";
+			for( j=0; j<dmc[i].length-1; j++ ) {
+				if( j != 0 )
+					str += ", ";
+				str += dmc[i][j+1];
+			}
+		}
+
+		// 본사
+		str += "</br> </br> 2. 본사";
+		for( i=0; i<bonsa.length; i++ ) {
+			str += "</br>  -  " + bonsa[i][0] + " > ";
+			for( j=0; j<bonsa[i].length-1; j++ ) {
+				if( j != 0 )
+					str += ", ";
+				str += bonsa[i][j+1];
+			}
+		}
+
+		// 가산 
+		str += "<br> </br> 3. 가산";
+		for( i=0; i<gasan.length; i++ ) {
+			str += "</br>  -  " + gasan[i][0] + " > ";
+			for( j=0; j<gasan[i].length-1; j++ ) {
+				if( j != 0 )
+					str += ", ";
+				str += gasan[i][j+1];
+			}
+		}
+
+		resultDiv.innerHTML = str;
+		resultDiv.id = "resultChild";
+		document.getElementById('result').appendChild(resultDiv);
+
+	}
+
+</script>
+</html>

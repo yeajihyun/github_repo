@@ -1,0 +1,9 @@
+# web 환경
+---
+spring:
+  profiles: web
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://52.78.216.4:3306/Homework
+    username: yeajihyun
+    password: password

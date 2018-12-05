@@ -1,0 +1,42 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.homework.mapper.MemberMapper">
+
+	<!-- 회원 조회 -->
+	<select id="selectMemberList" resultType="com.homework.model.Member">
+		SELECT 	ROW_NUMBER() OVER(ORDER BY seq) rowNum 
+		       ,seq
+		       ,name 
+		       ,workPlace
+		       ,car
+		  FROM member
+		ORDER BY seq
+	</select>
+
+	<!-- 회원 추가 -->
+	<insert id="addMember">
+		INSERT INTO member (
+			 name
+			,workPlace
+			,car
+		) VALUES (
+			 #{name}
+			,#{workPlace}
+			,#{car}
+		)
+	</insert>
+
+	<!-- 회원 수정 -->
+	<update id="updateMember">
+		UPDATE  member 
+		   SET  workPlace = #{workPlace}
+		       ,car = #{car}
+		 WHERE seq = #{seq} 
+	</update>
+
+	<!-- 회원 삭제 -->
+	<update id="deleteMember">
+		DELETE FROM  member 
+		 WHERE seq = #{seq} 
+	</update>
+
+</mapper>
