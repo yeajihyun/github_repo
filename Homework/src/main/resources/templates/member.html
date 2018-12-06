@@ -54,7 +54,7 @@
 			 	 	<button th:onclick="'memberUpdate(' + ${member.seq} + ');'">수정</button>
 			 	 	<button th:onclick="'memberDelete(' + ${member.seq} + ');'">삭제</button>
 			 	 </td>
-				 <td><input name="move" type="checkbox" th:value="${member.seq}"></td>
+				 <td><input name="move" type="checkbox" th:value="${member.seq}" checked="checked"></td>
 				<td th:if="${member.rowNum} eq 1" id="result" th:rowspan="${#lists.size(memberList) + 1}" style="text-align:left"></td>
 			 </tr>
 			 <!-- 추가 -->
