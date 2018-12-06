@@ -183,10 +183,9 @@
 		var dmc = [], dmcMember = [], dmcDriver = [], i=0, j=0;
 		var bonsa = [], bonsaMember = [], bonsaDriver = [], k=0, l=0;
 		var gasan = [], gasanMember = [], gasanDriver = [], m=0, n=0;
-		var dmcIndex=0, bonsaIndex=0, gasanIndex=0;
+		var indexDriver, indexmember;
 		var str = "";
 		var resultDiv = ""; 
-		var tmpIndex = -1;
 		
 		$('#result').empty();	// 기존 결과 삭제
 
@@ -230,43 +229,33 @@
 		for(i=0; i<dmcDriver.length; i++) {
 			dmc[i] = new Array();
 			dmc[i][0] = dmcDriver[i];
-
-			for(j=0; j < (dmcMember.length / dmcDriver.length); j++) {
-				if( dmcIndex == dmcMember.length )
-					break;
-				
-				dmc[i][j+1] = dmcMember[dmcIndex];
-				dmcIndex++;
-			}
 		}
-
+		for(j=0; j <dmcMember.length; j++) {
+			indexDriver = j % dmcDriver.length;
+			indexMember = parseInt(j / dmcDriver.length + 1);
+			dmc[indexDriver][indexMember] = dmcMember[j];
+		}
+		
 		// 본사 배차
 		for(i=0; i<bonsaDriver.length; i++) {
 			bonsa[i] = new Array();
 			bonsa[i][0] = bonsaDriver[i];
-			for(j=0; j < (bonsaMember.length / bonsaDriver.length); j++) {
-				if( bonsaIndex == bonsaMember.length )
-					break;
-				
-				if( bonsaDriver[i] == "Jonathan" )
-					break;
-
-				bonsa[i][j+1] = bonsaMember[bonsaIndex];
-				bonsaIndex++;
-			}
 		}
- 
+		for(j=0; j <bonsaMember.length; j++) {
+			indexDriver = j % bonsaDriver.length;
+			indexMember = parseInt(j / bonsaDriver.length + 1);
+			bonsa[indexDriver][indexMember] = bonsaMember[j];
+		}
+		
 		// 가산 배차
 		for(i=0; i<gasanDriver.length; i++) {
 			gasan[i] = new Array();
 			gasan[i][0] = gasanDriver[i];
-			for(j=0; j < (gasanMember.length / gasanDriver.length); j++) {
-				if( gasanIndex == gasanMember.length )
-					break;
-
-				gasan[i][j+1] = gasanMember[gasanIndex];
-				gasanIndex++;
-			}
+		}
+		for(j=0; j <gasanMember.length; j++) {
+			indexDriver = j % gasanDriver.length;
+			indexMember = parseInt(j / gasanDriver.length + 1);
+			gasan[indexDriver][indexMember] = gasanMember[j];
 		}
 		
 		// 출력
