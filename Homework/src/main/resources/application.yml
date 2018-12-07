@@ -4,6 +4,6 @@ spring:
   profiles: web
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://52.78.216.4:3306/Homework
+    url: jdbc:mariadb://homework.cxxp3pslkx1o.ap-northeast-2.rds.amazonaws.com:3306/Homework
     username: yeajihyun
     password: password

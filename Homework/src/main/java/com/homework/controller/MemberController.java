@@ -21,15 +21,15 @@ public class MemberController {
 	@NonNull
 	private final MemberService memberService;
 	
-	@RequestMapping("/member")
+	@RequestMapping("/fccntMember")
 	public String member(final Model model) {
 
 		model.addAttribute("memberList", memberService.selectMemberList());
 		
-		return "member";
+		return "fccntMember";
 	}
 
-	@PostMapping("/member/memberAdd")
+	@PostMapping("/fccntMember/memberAdd")
 	@ResponseBody
 	public boolean memberAdd(@RequestBody final Member member) {
 
@@ -40,7 +40,7 @@ public class MemberController {
 		return true;
 	}
 
-	@PostMapping("/member/memberUpdate")
+	@PostMapping("/fccntMember/memberUpdate")
 	@ResponseBody
 	public boolean memberUpdate(@RequestBody final Member member) {
 
@@ -51,7 +51,7 @@ public class MemberController {
 		return true;
 	}
 
-	@PostMapping("/member/memberDelete")
+	@PostMapping("/fccntMember/memberDelete")
 	@ResponseBody
 	public boolean memberDelete(@RequestBody final Member member) {
 

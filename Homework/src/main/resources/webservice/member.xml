@@ -8,13 +8,13 @@
 		       ,name 
 		       ,workPlace
 		       ,car
-		  FROM member
+		  FROM fccntMember
 		ORDER BY seq
 	</select>
 
 	<!-- 회원 추가 -->
 	<insert id="addMember">
-		INSERT INTO member (
+		INSERT INTO fccntMember (
 			 name
 			,workPlace
 			,car
@@ -27,7 +27,7 @@
 
 	<!-- 회원 수정 -->
 	<update id="updateMember">
-		UPDATE  member 
+		UPDATE  fccntMember 
 		   SET  workPlace = #{workPlace}
 		       ,car = #{car}
 		 WHERE seq = #{seq} 
@@ -35,7 +35,7 @@
 
 	<!-- 회원 삭제 -->
 	<update id="deleteMember">
-		DELETE FROM  member 
+		DELETE FROM fccntMember 
 		 WHERE seq = #{seq} 
 	</update>
 
