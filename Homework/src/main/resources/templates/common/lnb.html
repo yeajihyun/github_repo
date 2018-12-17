@@ -1,0 +1,16 @@
+<div class="lnb_wrap">
+	<nav id="lnb">
+		<ul>
+			<li><a href="/coin/coin" class="in_sub">코인계산</a></li>
+			<li><a href="/fccnt/member" class="in_sub">FCCNT 멤버</a></li>
+		</ul>
+	</nav>
+</div>
+<script>
+	//임시 조치
+	$("#lnb ul li a").each(function() {
+		if($(location).attr("pathname") == $(this).attr("href")){
+			$(this).addClass("on");
+		}
+	});
+</script>

@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class MainController {
 	
 	@RequestMapping("/")
-	public String coin() {
-		return "coin";
+	public String index() {
+		return "/index";
 	}
 
 }
