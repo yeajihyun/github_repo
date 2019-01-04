@@ -3,7 +3,9 @@
 	<header id="header">
 		<div class="head">
 			<div class="user_info">
-				<p th:text="${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd HH:mm')}">2018-10-12 오후 4:05</p>
+				<p th:text="${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd HH:mm')}" style="text-align:right">
+					2018-10-12 오후 4:05
+				</p>
 			</div>
 		</div>
 	</header>

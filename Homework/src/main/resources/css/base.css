@@ -1,3 +1,46 @@
 @charset "UTF-8";
 
 .t_center{text-align:center;}
+
+#header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 95px;
+    background: #fff;
+    border-top: 3px solid #eb1c23;
+    border-bottom: 1px solid #e5e5e5;
+    z-index: 110;
+}
+
+.lnb_wrap {
+    position: fixed;
+    width: 200px;
+    top: 100px;
+    left: 0;
+    bottom: 0;
+    background: #fff;
+    border-right: 1px solid #e5e5e5;
+    z-index: 101;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+#container {
+    position: relative;
+    clear: both;
+    padding: 100px 0 0 200px;
+}
+
+#contents {
+    padding: 30px;
+    box-sizing: border-box;
+}
+
+.cont_in {
+    position: relative;
+    padding: 29px;
+    background: #fff;
+    border: 1px solid #e0e5ec;
+}

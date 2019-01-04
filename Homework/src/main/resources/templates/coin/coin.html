@@ -2,42 +2,46 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout">
 
 	<section id="container" layout:fragment="content">
+	
 		<div th:replace="/common/lnb"></div> 
 
-		<table>
-			<colgroup>
-				<col style="width:300px"/>
-				<col style="width:200px"/>
-			</colgroup>
-			<tbody>
-				<tr>
-					<td>지폐 금액 : <input type="text" id="paper" style="text-align:center"> </td>
-				</tr>
-				<tr>
-					<td>동전의 가지 수 :
-						<button id="plusButton" >&nbsp;+&nbsp;</button>
-						<button id="minusButton" >&nbsp;-&nbsp;</button>
-					</td>
-				</tr>
-				<tr>
-					<td></td>
-					<td>동전 금액 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 개수</td>
-				</tr>
-				<!-- 동전 추가 -->
-				<tr>
-					<td></td>
-					<td> <div id="coinList"></div> </td>
-				</tr>
-				<tr>
-					<td> <button id="calButton">계산</button> </td>
-				</tr>
-				<!-- 결과 -->
-				<tr>
-					<td> <div id="result"></div> </td>
-				</tr>
+		<div id="contents">
+			<h1>지폐 교환기</h1>
+			<table>
+				<colgroup>
+					<col style="width:300px"/>
+					<col style="width:200px"/>
+				</colgroup>
+				<tbody>
+					<tr>
+						<td>지폐 금액 : <input type="text" id="paper" style="text-align:center"> </td>
+					</tr>
+					<tr>
+						<td>동전의 가지 수 :
+							<button id="plusButton" >&nbsp;+&nbsp;</button>
+							<button id="minusButton" >&nbsp;-&nbsp;</button>
+						</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td>동전 금액 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 개수</td>
+					</tr>
+					<!-- 동전 추가 -->
+					<tr>
+						<td></td>
+						<td> <div id="coinList"></div> </td>
+					</tr>
+					<tr>
+						<td> <button id="calButton">계산</button> </td>
+					</tr>
+					<!-- 결과 -->
+					<tr>
+						<td> <div id="result"></div> </td>
+					</tr>
 
-			</tbody>
-		</table>
+				</tbody>
+			</table>
+		</div>
 		
 
 

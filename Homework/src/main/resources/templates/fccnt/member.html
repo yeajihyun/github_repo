@@ -2,67 +2,70 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="/layout">
 
 	<section id="container" layout:fragment="content">
+	
 		<div th:replace="/common/lnb"></div>
-
-		<h1>FC CNT</h1>
-		<table border="1" class="t_center">
-			<colgroup>
-				<col style="width:5%"/>
-				<col style="width:20%"/>
-				<col style="width:10%"/>
-				<col style="width:10%"/>
-				<col style="width:15%"/>
-				<col style="width:10%"/>
-				<col style="width:30%"/>
-			</colgroup>
-			<thead>
-				<tr>
-					<th scope="col">번호</th>
-					<th scope="col">이름</th>
-					<th scope="col">근무지</th>
-					<th scope="col">차량유무</th>
-					<th scope="col">변경</th>
-					<th scope="col">배차 선택</th>
-					<th scope="col">배차 결과</th>
-				</tr>
-			</thead>
-			<tbody>
-				 <tr th:each="member : ${memberList}">
-					 <td th:text="${member.rowNum}"></td>
-					 <td th:id="'name' + ${member.seq}" th:text="${member.name}"></td>
-					 <td>
-						 <select th:id="'workPlace' + ${member.seq}">
-							 <option th:selected="${member.workPlace} eq DMC" value="DMC">DMC</option>
-							 <option th:selected="${member.workPlace} eq 본사" value="본사">본사</option>
-							 <option th:selected="${member.workPlace} eq 가산" value="가산">가산</option>
-						 </select>
-					 </td>
-					 <td><input type="checkbox" th:checked="${member.car} eq Y" th:id="'car' + ${member.seq}"></td>
-					  <td>
-						  <button th:onclick="'memberUpdate(' + ${member.seq} + ');'">수정</button>
-						  <button th:onclick="'memberDelete(' + ${member.seq} + ');'">삭제</button>
-					  </td>
-					 <td><input name="move" type="checkbox" th:value="${member.seq}" checked="checked"></td>
-					<td th:if="${member.rowNum} eq 1" id="result" th:rowspan="${#lists.size(memberList) + 1}" style="text-align:left"></td>
-				 </tr>
-				 <!-- 추가 -->
-				 <tr>
-					 <td>[[${#lists.size(memberList) + 1}]]</td>	
-					 <td><input type="text" id="name"></td>	
-					 <td>
-						 <select id="workPlace">
-							 <option>선택</option>
-							 <option value="DMC">DMC</option>
-							 <option value="본사">본사</option>
-							 <option value="가산">가산</option>
-						 </select>
-					 </td>	
-					<td><input type="checkbox" id="car"></td>
-					<td><button id="memberAdd">추가</button></td>
-					<td><button th:onclick="memberMove();">배차</button></td>
-				 </tr>
-			 </tbody>
-		</table>
+		
+		<div id="contents">
+			<h1>FC CNT</h1>
+			<table border="1" class="t_center">
+				<colgroup>
+					<col style="width:5%"/>
+					<col style="width:20%"/>
+					<col style="width:10%"/>
+					<col style="width:10%"/>
+					<col style="width:15%"/>
+					<col style="width:10%"/>
+					<col style="width:30%"/>
+				</colgroup>
+				<thead>
+					<tr>
+						<th scope="col">번호</th>
+						<th scope="col">이름</th>
+						<th scope="col">근무지</th>
+						<th scope="col">차량유무</th>
+						<th scope="col">변경</th>
+						<th scope="col">배차 선택</th>
+						<th scope="col">배차 결과</th>
+					</tr>
+				</thead>
+				<tbody>
+					 <tr th:each="member : ${memberList}">
+						 <td th:text="${member.rowNum}"></td>
+						 <td th:id="'name' + ${member.seq}" th:text="${member.name}"></td>
+						 <td>
+							 <select th:id="'workPlace' + ${member.seq}">
+								 <option th:selected="${member.workPlace} eq DMC" value="DMC">DMC</option>
+								 <option th:selected="${member.workPlace} eq 본사" value="본사">본사</option>
+								 <option th:selected="${member.workPlace} eq 가산" value="가산">가산</option>
+							 </select>
+						 </td>
+						 <td><input type="checkbox" th:checked="${member.car} eq Y" th:id="'car' + ${member.seq}"></td>
+						  <td>
+							  <button th:onclick="'memberUpdate(' + ${member.seq} + ');'">수정</button>
+							  <button th:onclick="'memberDelete(' + ${member.seq} + ');'">삭제</button>
+						  </td>
+						 <td><input name="move" type="checkbox" th:value="${member.seq}" checked="checked"></td>
+						<td th:if="${member.rowNum} eq 1" id="result" th:rowspan="${#lists.size(memberList) + 1}" style="text-align:left"></td>
+					 </tr>
+					 <!-- 추가 -->
+					 <tr>
+						 <td>[[${#lists.size(memberList) + 1}]]</td>	
+						 <td><input type="text" id="name"></td>	
+						 <td>
+							 <select id="workPlace">
+								 <option>선택</option>
+								 <option value="DMC">DMC</option>
+								 <option value="본사">본사</option>
+								 <option value="가산">가산</option>
+							 </select>
+						 </td>	
+						<td><input type="checkbox" id="car"></td>
+						<td><button id="memberAdd">추가</button></td>
+						<td><button th:onclick="memberMove();">배차</button></td>
+					 </tr>
+				 </tbody>
+			</table>
+		</div>
 
 	<script th:inline="javascript">
 
