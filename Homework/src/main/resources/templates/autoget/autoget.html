@@ -1,0 +1,57 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout">
+
+	<section id="container" layout:fragment="content">
+	
+		<div th:replace="/common/lnb"></div> 
+
+		<div id="contents">
+			<h1>Auto Get</h1>
+			<table>
+				<colgroup>
+					<col style="width:500px"/>
+					<col style="width:200px"/>
+				</colgroup>
+				<tbody>
+					<tr>
+						<td>Target URL : 
+							<input type="text" id="targetURL" value="http://localhost:8080/coin/coin" 
+							       style="text-align:center;width:300px"/>
+						</td>
+					</tr>
+					<tr>
+						<td>Target Time(yyyy/MM/dd HH:mm) : <input type="text" id="targetTime"  style="text-align:center;width:150px"/> </td>
+					</tr>
+					<tr>
+						<td>Server Time : <span id="serverTime"> </span> </td>
+					</tr>	
+				</tbody>
+			</table>
+
+			<button id="getButton">Get</button>
+		</div>
+		
+
+
+	<script th:inline="javascript">
+
+	$('#getButton').click(function() {
+		$.ajax({
+			url:"http://localhost:8080/autoget/getTime",
+			data:
+				{
+					targetURL: $('#targetURL').val(),
+					targetTime: $('#targetTime').val()
+				},
+			success:function(response) {
+				// alert(response.serverTime);
+				$('#serverTime').text(response.serverTime);
+			}
+		});
+	});
+
+		
+	</script>
+
+	</section>
+</html>

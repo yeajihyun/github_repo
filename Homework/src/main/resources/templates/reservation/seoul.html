@@ -1,0 +1,55 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout">
+
+	<section id="container" layout:fragment="content">
+	
+		<div th:replace="/common/lnb"></div> 
+
+		<div id="contents">
+			<h1>Auto Get</h1>
+			<table>
+				<colgroup>
+					<col style="width:500px"/>
+					<col style="width:200px"/>
+				</colgroup>
+				<tbody>
+					<tr>
+						<td>ID : 
+							<input type="text" id="id"  style="text-align:center;width:150px"/> </td>
+						</td>
+					</tr>
+					<tr>
+					<tr>
+						<td>PASSWORD : 
+							<input type="text" id="password"  style="text-align:center;width:150px"/> </td>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<button id="getButton">Get</button>
+		</div>
+		
+
+
+	<script th:inline="javascript">
+
+	$('#getButton').click(function() {
+		$.ajax({
+			url:"http://localhost:8080/reservation/seoul/get",
+			data:
+				{
+					id: $('#id').val(),
+					password: $('#password').val()
+				},
+			success:function(response) {
+				alert(response);
+			}
+		});
+	});
+
+		
+	</script>
+
+	</section>
+</html>
