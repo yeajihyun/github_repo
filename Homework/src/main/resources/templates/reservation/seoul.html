@@ -28,6 +28,19 @@
 			</table>
 
 			<button id="getButton">Get</button>
+			<br></br>
+			
+			방송회차 : <input type="text" id="getBroadSeq"  style="text-align:center;width:50px"/>
+			평가자 : <input type="text" id="getApprSeq"  style="text-align:center;width:50px"/>
+			<button id="getTotalPoint">getTotalPoint</button>
+			<br></br>
+			
+			방송회차 : <input type="text" id="seqBroadSeq"  style="text-align:center;width:50px"/>
+			평가자 : <input type="text" id="setApprSeq"  style="text-align:center;width:50px"/>
+			요리사 : <input type="text" id="setCookSeq"  style="text-align:center;width:50px"/>
+			항목 : <input type="text" id="setEvalSeq"  style="text-align:center;width:50px"/>
+			포인트 : <input type="text" id="point"  style="text-align:center;width:50px"/>
+			<button id="setPoint">setPoint</button>
 		</div>
 		
 
@@ -47,9 +60,18 @@
 			}
 		});
 	});
+	
+	$('#getTotalPoint').click(function() {
+		getTotalPoint(eval($('#getBroadSeq').val()), eval($('#getApprSeq').val()));	
+	})
+
+	$('#setPoint').click(function() {
+		setPoint( eval($('#seqBroadSeq').val()), eval($('#setApprSeq').val()), eval($('#setCookSeq').val())
+				 ,eval($('#setEvalSeq').val()), eval($('#point').val()) );
+	})
 
 		
 	</script>
-
+	
 	</section>
 </html>
