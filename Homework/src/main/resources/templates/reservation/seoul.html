@@ -38,8 +38,11 @@
 			방송회차 : <input type="text" id="seqBroadSeq"  style="text-align:center;width:50px"/>
 			평가자 : <input type="text" id="setApprSeq"  style="text-align:center;width:50px"/>
 			요리사 : <input type="text" id="setCookSeq"  style="text-align:center;width:50px"/>
-			항목 : <input type="text" id="setEvalSeq"  style="text-align:center;width:50px"/>
-			포인트 : <input type="text" id="point"  style="text-align:center;width:50px"/>
+			1번 평가 : <input type="text" id="setPoint1"  style="text-align:center;width:50px"/>
+			2번 평가 : <input type="text" id="setPoint2"  style="text-align:center;width:50px"/>
+			3번 평가 : <input type="text" id="setPoint3"  style="text-align:center;width:50px"/>
+			<br></br>
+			평균포인트 : <input type="text" id="setAvgPoint"  style="text-align:center;width:50px"/>
 			<button id="setPoint">setPoint</button>
 
 		</div>
@@ -68,7 +71,8 @@
 
 	$('#setPoint').click(function() {
 		setPoint( eval($('#seqBroadSeq').val()), eval($('#setApprSeq').val()), eval($('#setCookSeq').val())
-				 ,eval($('#setEvalSeq').val()), eval($('#point').val()) );
+				 ,eval($('#setPoint1').val()), eval($('#setPoint2').val()), eval($('#setPoint3').val()) 
+				 ,eval($('#setAvgPoint').val()) );
 	})
 
 		
