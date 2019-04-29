@@ -30,11 +30,22 @@
 			<button id="getButton">Get</button>
 			<br></br>
 			
-			방송회차 : <input type="text" id="getBroadSeq"  style="text-align:center;width:50px"/>
-			평가자 : <input type="text" id="getApprSeq"  style="text-align:center;width:50px"/>
+			방송회차 : <input type="text" id="getTotalBroadSeq"  style="text-align:center;width:50px"/>
+			평가자 : <input type="text" id="getTotalApprSeq"  style="text-align:center;width:50px"/>
 			<button id="getTotalPoint">getTotalPoint</button>
 			<br></br>
 			
+			방송회차 : <input type="text" id="getBroadSeq"  style="text-align:center;width:50px"/>
+			평가자 : <input type="text" id="getApprSeq"  style="text-align:center;width:50px"/>
+			요리 : <input type="text" id="getCookSeq"  style="text-align:center;width:50px"/>
+			<button id="getPoint">getPoint</button>
+			<br></br>
+			
+			방송회차 : <input type="text" id="getAvgBroadSeq"  style="text-align:center;width:50px"/>
+			요리 : <input type="text" id="getAvgCookSeq"  style="text-align:center;width:50px"/>
+			<button id="getAvgPoint">getAvgPoint</button>
+			<br></br>
+
 			방송회차 : <input type="text" id="seqBroadSeq"  style="text-align:center;width:50px"/>
 			평가자 : <input type="text" id="setApprSeq"  style="text-align:center;width:50px"/>
 			요리사 : <input type="text" id="setCookSeq"  style="text-align:center;width:50px"/>
@@ -66,7 +77,15 @@
 	});
 	
 	$('#getTotalPoint').click(function() {
-		getTotalPoint(eval($('#getBroadSeq').val()), eval($('#getApprSeq').val()));	
+		getTotalPoint(eval($('#getTotalBroadSeq').val()), eval($('#getTotalApprSeq').val()));	
+	})
+
+	$('#getPoint').click(function() {
+		getPoint($('#getBroadSeq').val(), $('#getApprSeq').val(), $('#getCookSeq').val());	
+	})
+
+	$('#getAvgPoint').click(function() {
+		getPoint($('#getAvgBroadSeq').val(), $('#getAvgCookSeq').val());	
 	})
 
 	$('#setPoint').click(function() {
@@ -75,7 +94,16 @@
 				 ,eval($('#setAvgPoint').val()) );
 	})
 
-		
+	function getPointCallBack(data){
+		var result = data;
+		console.log("getPointCallBack : " + JSON.stringify(data));
+	}	
+
+	function setPointCallBack(data){
+		var result = data;
+		console.log("setPointCallBack : " + JSON.stringify(data));
+	}	
+
 	</script>
 	
 	</section>
