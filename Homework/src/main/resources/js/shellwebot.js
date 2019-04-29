@@ -19,6 +19,7 @@ size : data array size
 data[] : broadSeq(방송회차1, apprSeq(평가자), cookSeq(요리사)
         ,point1(1번항목평가), point2(2번항목평가), point3(3번항목평가),  avgPoint(평가평균)
 */
+/*
 function getTotalPoint(broadSeq, apprSeq){
 	var result = {};
 	var index = 0;
@@ -52,6 +53,7 @@ function getTotalPoint(broadSeq, apprSeq){
 	return result;
 
 }
+*/
 
 
 /*
@@ -93,8 +95,79 @@ function getPoint(broadSeq, apprSeq, cookSeq){
 	    console.log("result => ", result);
 	    getPointCallBack(result);
     });
-    
+}
 
+
+/*
+모든 요리사에 대한 모든 평가 항목 포인트 조회
+ex) getAvgPoint(1, 2) => 1회차 방송의 2번 요리에 대한 모든 평가자 평균 포인트 조회
+return data(JSON)
+code : 200(정상), 300(데이터없음), 400(에러)
+cookSeq : cookSeq(요리사)
+data : avgPoint1(1번항목평가), avgPoint2(2번항목평가), avgPoint3(3번항목평가),  avgTotalPoint(평가평균)
+*/
+function getAvgPoint(broadSeq, cookSeq){
+	// var result = {};
+	var result = new Object();
+	var sumAvgPoint1 = 0;
+	var sumAvgPoint2 = 0;
+	var sumAvgPoint3 = 0;
+	var sumAvgTotalPoint = 0;
+	var avgPoint1 = 0; 
+	var avgPoint2 = 0; 
+	var avgPoint3 = 0; 
+	var avgTotalPoint = 0; 
+	var index = 0;
+	
+	pointColl.where("broadSeq", "==", broadSeq)
+	         .where("cookSeq", "==", cookSeq)
+	         .get().then(function(querySnapshot) {
+	        	 if( !querySnapshot.empty ) {
+					 result.code = 200;
+					 querySnapshot.forEach(function(doc) {
+						 
+						 // doc.data() is never undefined for query doc snapshots
+						 sumAvgPoint1 += eval(doc.data().point1);
+						 sumAvgPoint2 += eval(doc.data().point2);
+						 sumAvgPoint3 += eval(doc.data().point3);
+						 sumAvgTotalPoint += eval(doc.data().avgPoint);
+						 
+						 index++;
+						 
+						 if(index == querySnapshot.size) {
+
+							avgPoint1 = sumAvgPoint1 / querySnapshot.size;
+							avgPoint2 = sumAvgPoint2 / querySnapshot.size;
+							avgPoint3 = sumAvgPoint3 / querySnapshot.size;
+							avgTotalPoint = sumAvgTotalPoint / querySnapshot.size;
+
+							result.data = {
+									avgPoint1 : avgPoint1,
+									avgPoint2 : avgPoint2,
+									avgPoint3 : avgPoint3,
+									avgTotalPoint : avgTotalPoint
+							};
+							
+							result.cookSeq = cookSeq;
+							console.log("result => ", result);
+							getAvgPointCallBack(result);
+						 }
+					 }); 
+	        	 }
+	        	 else{
+					 result.code = 300;
+					 result.cookSeq = cookSeq;
+					 console.log("result => ", result);
+					 getAvgPointCallBack(result);
+	        	 }
+	        	 
+	}).catch(function(error) {
+		result.code = 400;
+		result.cookSeq = cookSeq;
+        console.log("Error getting documents: ", error);
+	    console.log("result => ", result);
+	    getAvgPointCallBack(result);
+    });
 }
 
 
