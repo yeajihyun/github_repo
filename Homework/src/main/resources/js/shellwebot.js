@@ -68,6 +68,8 @@ function getPoint(broadSeq, apprSeq, cookSeq){
 	// var result = {};
 	var result = new Object();
 	
+	result.cookSeq = cookSeq;
+
 	pointColl.where("broadSeq", "==", broadSeq)
 	         .where("apprSeq", "==", apprSeq)
 	         .where("cookSeq", "==", cookSeq)
@@ -77,20 +79,17 @@ function getPoint(broadSeq, apprSeq, cookSeq){
 					 querySnapshot.forEach(function(doc) {
 						 // doc.data() is never undefined for query doc snapshots
 						 result.data = doc.data();
+						 console.log("result => ", result);
+						 getPointCallBack(result);
 					 }); 
 	        	 }
 	        	 else{
 					 result.code = 300;
+					 console.log("result => ", result);
+					 getPointCallBack(result);
 	        	 }
-	        	 
-				result.cookSeq = cookSeq;
-	        	console.log("result => ", result);
-	        	getPointCallBack(result);
-	        	 
-	        	 
 	}).catch(function(error) {
 		result.code = 400;
-		result.cookSeq = cookSeq;
         console.log("Error getting documents: ", error);
 	    console.log("result => ", result);
 	    getPointCallBack(result);
@@ -173,7 +172,7 @@ function getAvgPoint(broadSeq, cookSeq){
 
 /*
 평가 포인트 입력
-ex) seetPoint(1, 2, 3, 4, 5, 6, 7) => 1회차 방송의 2번 평가자가 3번 요리사의 평가항목 순서대로 4점, 5점, 6점 및, 평균점수 7점 입력
+ex) setPoint(1, 2, 3, 4, 5, 6, 7) => 1회차 방송의 2번 평가자가 3번 요리사의 평가항목 순서대로 4점, 5점, 6점 및, 평균점수 7점 입력
 return data(JSON)
 code : 200(정상), 400(에러)
 */
@@ -242,4 +241,48 @@ function setPoint(broadSeq, apprSeq, cookSeq, point1, point2, point3, avgPoint){
 	    console.log("result => ", result);
 	});
 
+}
+
+
+/*
+포인트 Reset 
+ex) resetPoint(1, 2, 3, resetPointCallBack) => 1회차 방송의 2번 평가자의 3번 요리 점수 초기화
+return data(JSON)
+code : 200(정상), 300(데이터없음), 400(에러)
+cookSeq : cookSeq(요리사)
+*/
+function resetPoint(broadSeq, apprSeq, cookSeq, resetPointCallBack){
+	var result = {};
+	
+	result.cookSeq = cookSeq;
+
+	pointColl.where("broadSeq", "==", broadSeq)
+	         .where("apprSeq", "==", apprSeq)
+	         .where("cookSeq", "==", cookSeq)
+	         .get().then(function(querySnapshot) {
+	        	 if( !querySnapshot.empty ) {
+	        		 querySnapshot.forEach(function(doc) {
+						 pointColl.doc(doc.id).delete().then(function() {
+							 result.code = 200;
+							 console.log("result => ", result);
+							 resetPointCallBack(result);
+						 }).catch(function(error) {
+							result.code = 400;
+					        console.log("Error delete documents", error);
+						    console.log("result => ", result);
+						    resetPointCallBack(result);
+					    });
+	        		 });
+	        	 }
+	        	 else{
+					 result.code = 300;
+					 console.log("result => ", result);
+					 resetPointCallBack(result);
+	        	 }
+			}).catch(function(error) {
+				result.code = 400;
+				console.log("Error getting querySnapshot", error);
+				console.log("result => ", result);
+				resetPointCallBack(result);
+			});
 }
