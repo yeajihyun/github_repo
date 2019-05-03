@@ -41,6 +41,12 @@
 			<button id="getPoint">getPoint</button>
 			<br></br>
 			
+			방송회차 : <input type="text" id="resetBroadSeq"  style="text-align:center;width:50px"/>
+			평가자 : <input type="text" id="resetApprSeq"  style="text-align:center;width:50px"/>
+			요리 : <input type="text" id="resetCookSeq"  style="text-align:center;width:50px"/>
+			<button id="resetPoint">resetPoint</button>
+			<br></br>
+
 			방송회차 : <input type="text" id="getAvgBroadSeq"  style="text-align:center;width:50px"/>
 			요리 : <input type="text" id="getAvgCookSeq"  style="text-align:center;width:50px"/>
 			<button id="getAvgPoint">getAvgPoint</button>
@@ -85,13 +91,16 @@
 	})
 
 	$('#getAvgPoint').click(function() {
-		getPoint($('#getAvgBroadSeq').val(), $('#getAvgCookSeq').val());	
+		getAvgPoint($('#getAvgBroadSeq').val(), $('#getAvgCookSeq').val());	
+	})
+
+	$('#resetPoint').click(function() {
+		resetPoint($('#resetBroadSeq').val(), $('#resetApprSeq').val(), $('#resetCookSeq').val(), resetPointCallBack);	
 	})
 
 	$('#setPoint').click(function() {
 		setPoint( eval($('#seqBroadSeq').val()), eval($('#setApprSeq').val()), eval($('#setCookSeq').val())
-				 ,eval($('#setPoint1').val()), eval($('#setPoint2').val()), eval($('#setPoint3').val()) 
-				 ,eval($('#setAvgPoint').val()) );
+				 ,eval($('#setPoint1').val()), eval($('#setPoint2').val()), eval($('#setPoint3').val())); 
 	})
 
 	function getPointCallBack(data){
@@ -99,9 +108,19 @@
 		console.log("getPointCallBack : " + JSON.stringify(data));
 	}	
 
+	function getAvgPointCallBack(data){
+		var result = data;
+		console.log("getAvgPointCallBack : " + JSON.stringify(data));
+	}	
+
 	function setPointCallBack(data){
 		var result = data;
 		console.log("setPointCallBack : " + JSON.stringify(data));
+	}	
+
+	function resetPointCallBack(data){
+		var result = data;
+		console.log("resetPointCallBack : " + JSON.stringify(data));
 	}	
 
 	</script>
